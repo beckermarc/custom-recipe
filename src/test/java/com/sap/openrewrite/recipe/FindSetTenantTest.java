@@ -15,7 +15,7 @@ public class FindSetTenantTest implements RewriteTest {
 	}
 
 	@Test
-	void testSelect() {
+	void testSetTenantInModifyUser() {
 		rewriteRun(
 			java(
 
@@ -25,7 +25,9 @@ public class FindSetTenantTest implements RewriteTest {
 					class Test {
 
 						void test(CdsRuntime runtime) {
-							runtime.requestContext().modifyUser(u -> u.setTenant(null));
+							runtime.requestContext().modifyUser(u ->
+								u.setTenant(null)
+							);
 						}
 
 					}
@@ -36,7 +38,9 @@ public class FindSetTenantTest implements RewriteTest {
 					class Test {
 
 						void test(CdsRuntime runtime) {
-							runtime.requestContext().modifyUser(u -> /*~~>*/u.setTenant(null));
+							runtime.requestContext().modifyUser(u ->
+								/*~~>*/u.setTenant(null)
+							);
 						}
 
 					}
@@ -46,4 +50,22 @@ public class FindSetTenantTest implements RewriteTest {
 
 	}
 
+	@Test
+	void testSetTenant() {
+		rewriteRun(
+			java(
+				"""
+					import com.sap.cds.services.request.UserInfo;
+
+					class Test {
+
+						void test() {
+							UserInfo.create().setTenant(null);
+						}
+
+					}
+				"""
+			)
+		);
+	}
 }
