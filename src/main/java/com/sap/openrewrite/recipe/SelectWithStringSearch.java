@@ -3,12 +3,10 @@ package com.sap.openrewrite.recipe;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
-import org.openrewrite.internal.ListUtils;
 import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.J.Literal;
-import org.openrewrite.java.tree.J.MethodInvocation;
 import org.openrewrite.java.tree.JavaType;
 import org.openrewrite.marker.SearchResult;
 
@@ -33,7 +31,7 @@ public class SelectWithStringSearch extends Recipe {
 		MethodMatcher matcher = new MethodMatcher("com.sap.cds.ql.Select columns(..)");
 		return new JavaIsoVisitor<ExecutionContext>() {
 
-			@Override
+			/* @Override
 			public MethodInvocation visitMethodInvocation(MethodInvocation method,
 					ExecutionContext p) {
 				MethodInvocation m = super.visitMethodInvocation(method, p);
@@ -47,7 +45,7 @@ public class SelectWithStringSearch extends Recipe {
 					}));
 				}
 				return m;
-			}
+			} */
 
 			@Override
 			public Literal visitLiteral(Literal literal, ExecutionContext p) {
