@@ -14,7 +14,12 @@ public class CdsElementEqualsRules {
 	public static class SetTenantToSystemUser {
 
 		@BeforeTemplate
-		public boolean useObjectIdentity(CdsElement e1, CdsElement e2) {
+		public boolean useObjectIdentity(Object e1, CdsElement e2) {
+			return e1 == e2;
+		}
+
+		@BeforeTemplate
+		public boolean useObjectIdentity2(CdsElement e1, Object e2) {
 			return e1 == e2;
 		}
 

@@ -38,7 +38,7 @@ public class FindSelectStringColumns extends Recipe {
 				if (matcher.matches(m)) {
 					m = m.withArguments(ListUtils.map(m.getArguments(), a -> {
 						if (a instanceof J.Literal && ((J.Literal) a).getType() == JavaType.Primitive.String) {
-							table.insertRow(p, new SelectColumns.Row((String) ((J.Literal) a).getValue()));
+							table.insertRow(p, new SelectStringColumns.Row((String) ((J.Literal) a).getValue()));
 							return SearchResult.found(a);
 						}
 						return a;
