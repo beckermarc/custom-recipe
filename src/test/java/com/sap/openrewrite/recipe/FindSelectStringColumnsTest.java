@@ -8,20 +8,20 @@ import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
-import com.sap.openrewrite.recipe.table.SelectColumns;
+import com.sap.openrewrite.recipe.table.SelectStringColumns;
 
-public class SelectWithStringSearchTest implements RewriteTest {
+public class FindSelectStringColumnsTest implements RewriteTest {
 
 	@Override
 	public void defaults(RecipeSpec spec) {
-		spec.recipe(new SelectWithStringSearch()).parser(JavaParser.fromJavaVersion().classpath("cds4j-api"));
+		spec.recipe(new FindSelectStringColumns()).parser(JavaParser.fromJavaVersion().classpath("cds4j-api"));
 	}
 
 	@Test
 	void testSelect() {
 		rewriteRun(
-			spec -> spec.dataTable(SelectColumns.Row.class, (rows) -> {
-				assertThat(rows).containsExactly(new SelectColumns.Row("MyElement"));
+			spec -> spec.dataTable(SelectStringColumns.Row.class, (rows) -> {
+				assertThat(rows).containsExactly(new SelectStringColumns.Row("MyElement"));
 			}),
 			java(
 
@@ -55,8 +55,8 @@ public class SelectWithStringSearchTest implements RewriteTest {
 	@Test
 	void testSelectWithMultipleStrings() {
 		rewriteRun(
-			spec -> spec.dataTable(SelectColumns.Row.class, (rows) -> {
-				assertThat(rows).containsExactly(new SelectColumns.Row("MyElement"), new SelectColumns.Row("MyOtherElement"));
+			spec -> spec.dataTable(SelectStringColumns.Row.class, (rows) -> {
+				assertThat(rows).containsExactly(new SelectStringColumns.Row("MyElement"), new SelectStringColumns.Row("MyOtherElement"));
 			}),
 			java(
 
@@ -90,8 +90,8 @@ public class SelectWithStringSearchTest implements RewriteTest {
 	@Test
 	void testSelectWithArray() {
 		rewriteRun(
-			spec -> spec.dataTable(SelectColumns.Row.class, (rows) -> {
-				assertThat(rows).containsExactly(new SelectColumns.Row("MyElement"), new SelectColumns.Row("MyOtherElement"));
+			spec -> spec.dataTable(SelectStringColumns.Row.class, (rows) -> {
+				assertThat(rows).containsExactly(new SelectStringColumns.Row("MyElement"), new SelectStringColumns.Row("MyOtherElement"));
 			}),
 			java(
 

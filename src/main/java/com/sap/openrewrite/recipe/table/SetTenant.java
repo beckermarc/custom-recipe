@@ -6,10 +6,10 @@ import org.openrewrite.Recipe;
 
 import lombok.Value;
 
-public class SelectColumns extends DataTable<SelectColumns.Row> {
+public class SetTenant extends DataTable<SetTenant.Row> {
 
-	public SelectColumns(Recipe recipe) {
-		super(recipe, "Select Columns Table", "The table.");
+	public SetTenant(Recipe recipe) {
+		super(recipe, "setTenant() calls", "The table.");
 	}
 
 	@Value

@@ -10,11 +10,11 @@ import org.openrewrite.java.tree.J.Literal;
 import org.openrewrite.java.tree.JavaType;
 import org.openrewrite.marker.SearchResult;
 
-import com.sap.openrewrite.recipe.table.SelectColumns;
+import com.sap.openrewrite.recipe.table.SelectStringColumns;
 
-public class SelectWithStringSearch extends Recipe {
+public class FindSelectStringColumns extends Recipe {
 
-	private final transient SelectColumns table = new SelectColumns(this);
+	private final transient SelectStringColumns table = new SelectStringColumns(this);
 
 	@Override
 	public String getDisplayName() {
@@ -50,7 +50,7 @@ public class SelectWithStringSearch extends Recipe {
 			@Override
 			public Literal visitLiteral(Literal literal, ExecutionContext p) {
 				if (literal.getType() == JavaType.Primitive.String && matcher.matches(getCursor().firstEnclosing(J.MethodInvocation.class))) {
-					table.insertRow(p, new SelectColumns.Row((String) ((J.Literal) literal).getValue()));
+					table.insertRow(p, new SelectStringColumns.Row((String) ((J.Literal) literal).getValue()));
 					return SearchResult.found(literal);
 				}
 				return literal;
