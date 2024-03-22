@@ -15,20 +15,49 @@ public class RequestContextRunnerRulesTest implements RewriteTest {
     }
 
     @Test
-    void testReplaceModifyUser() {
+    void testReplaceModifyUserWithU() {
         rewriteRun(
             java(
+                """
+                    import com.sap.cds.services.runtime.RequestContextRunner;
+                    import java.util.Map;
 
+                    class Test {
+
+                        void test(RequestContextRunner cdsContextRunner, Map<String, String> map) {
+                            cdsContextRunner.modifyUser(u -> u.setTenant(map.get("test").toString()));
+                        }
+                    }
+                """,
+                """
+                    import com.sap.cds.services.runtime.RequestContextRunner;
+                    import java.util.Map;
+
+                    class Test {
+
+                        void test(RequestContextRunner cdsContextRunner, Map<String, String> map) {
+                            cdsContextRunner.systemUser(map.get("test").toString());
+                        }
+                    }
+                """
+            )
+        );
+
+    }
+
+    @Test
+    void testReplaceModifyUserWithUser() {
+        rewriteRun(
+            java(
                 """
                     import com.sap.cds.services.runtime.CdsRuntime;
 
                     class Test {
 
                         void test(CdsRuntime runtime) {
-                            String test = "test";
-                            runtime.requestContext().modifyUser(u -> u.setTenant(test));
+                            String test = "tenant";
+                            runtime.requestContext().modifyUser(user -> user.setTenant(test));
                         }
-
                     }
                 """,
                 """
@@ -37,10 +66,9 @@ public class RequestContextRunnerRulesTest implements RewriteTest {
                     class Test {
 
                         void test(CdsRuntime runtime) {
-                            String test = "test";
+                            String test = "tenant";
                             runtime.requestContext().systemUser(test);
                         }
-
                     }
                 """
             )
@@ -49,3 +77,4 @@ public class RequestContextRunnerRulesTest implements RewriteTest {
     }
 
 }
+
